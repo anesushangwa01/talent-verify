@@ -9,7 +9,7 @@ const Layout = () => {
  <Header />
       <main style={{ minHeight: "80vh", padding: "20px" }}>
       {/* ✅ This will render child routes */}
-        <p>hello world</p>
+    
       </main>
         <Footer />
      

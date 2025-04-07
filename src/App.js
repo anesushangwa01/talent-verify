@@ -19,10 +19,12 @@ export default function App() {
           <Route path="header" element={<Header />} />
           <Route path="addcompany" element={<AddCompany />} />
           <Route path="footer" element={<Footer />} />
-          <Route path="displayemployee" element={<  DisplayEmployee  />} />
+          <Route path="displayemployees" element={<  DisplayEmployee  />} />
           <Route path="displaycompany" element={<DisplayCompany />} />
           <Route path="addemployee" element={<AddEmployee />} />
           <Route path="register" element={<Register />} />
+          <Route path="/employee/:id" element={<AddEmployee/>} />
+          <Route path="/edit-company/:id" element={<AddCompany />} />
         </Route>
       </Routes>
     </BrowserRouter>

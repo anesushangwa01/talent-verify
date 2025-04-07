@@ -7,8 +7,6 @@ const Footer = () => {
         <p>Copyright &copy; 2025</p>
         <Link to="/register">Register</Link>
       </footer>
-
-      <Outlet />
     </>
   )
 };
