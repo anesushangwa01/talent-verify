@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+const BASE_URL = 'https://talentverifybackend.onrender.com'; // ✅ Centralized API base URI
+
 const CompanyList = () => {
   const [companies, setCompanies] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -10,7 +12,7 @@ const CompanyList = () => {
   // Fetch companies from the server
   useEffect(() => {
     setLoading(true);
-    fetch('https://talentverifybackend.onrender.com/companies/')
+    fetch(`${BASE_URL}/companies/`)
       .then(response => response.json())
       .then(data => {
         setCompanies(data);
@@ -22,7 +24,7 @@ const CompanyList = () => {
       });
   }, []);
 
-  // Update filtered companies when companies data or search term changes
+  // Filter companies based on search term
   useEffect(() => {
     const results = companies.filter(company =>
       Object.values(company).some(value =>
@@ -37,24 +39,25 @@ const CompanyList = () => {
     if (!window.confirm('Are you sure you want to delete this company?')) return;
 
     try {
-      const res = await fetch(`http://127.0.0.1:8000/companies/${id}/delete/`, {
+      const res = await fetch(`${BASE_URL}/companies/${id}/delete/`, {
         method: 'DELETE',
       });
+
       if (res.ok) {
         alert('Company deleted');
-        // Remove the deleted company from the local state
-        setCompanies(companies.filter(company => company.id !== id));
+        setCompanies(prev => prev.filter(company => company.id !== id));
+      } else {
+        alert('Failed to delete company');
       }
     } catch (err) {
       console.error('Delete failed:', err);
     }
   };
 
-  // Handle search input change
+  // Handle search input
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
-
   return (
     <div className="container my-4">
       {/* Centered Search Bar */}

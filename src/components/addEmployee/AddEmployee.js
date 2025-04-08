@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams, useNavigate } from 'react-router-dom';
 
+const BASE_URL = 'https://talentverifybackend.onrender.com'; // ✅ Centralized API base URI
+
 const AddEmployeeForm = () => {
-  const { id } = useParams(); // Get the employee ID from the URL
-  const navigate = useNavigate(); // Initialize useNavigate for navigation after form submission
+  const { id } = useParams();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -12,39 +14,37 @@ const AddEmployeeForm = () => {
     reset,
   } = useForm();
 
-  const [companies, setCompanies] = useState([]); // State for companies list
-  const [ setEmployeeData] = useState(null); // State for employee data (for editing)
-  const [loading, setLoading] = useState(false); // State to track loading
+  const [companies, setCompanies] = useState([]);
+  const [setEmployeeData] = useState(null); // Currently unused, but reserved
+  const [loading, setLoading] = useState(false);
 
-  // Fetch companies and employee data if in edit mode
   useEffect(() => {
     // Fetch companies list
-    fetch('https://talentverifybackend.onrender.com/companies/')
+    fetch(`${BASE_URL}/companies/`)
       .then((res) => res.json())
       .then((data) => setCompanies(data))
       .catch((err) => console.error('Error fetching companies:', err));
 
+    // Fetch employee data if editing
     if (id) {
-      // Fetch employee data for editing
-      fetch(`https://talentverifybackend.onrender.com/employees/${id}/`)
+      fetch(`${BASE_URL}/employees/${id}/`)
         .then((res) => res.json())
         .then((data) => {
           setEmployeeData(data);
-          reset(data); // Pre-populate form with employee data
+          reset(data);
         })
         .catch((err) => console.error('Error fetching employee data:', err));
     }
   }, [id, reset]);
 
-  // Handle form submission
   const onSubmit = async (data) => {
-    setLoading(true); // Start loading
+    setLoading(true);
 
     try {
-      const method = id ? 'PUT' : 'POST'; // Choose method based on edit or add
+      const method = id ? 'PUT' : 'POST';
       const url = id
-        ? `https://talentverifybackend.onrender.com/employees/${id}/update/`
-        : 'https://talentverifybackend.onrender.com/add-employee/';
+        ? `${BASE_URL}/employees/${id}/update/`
+        : `${BASE_URL}/add-employee/`;
 
       const response = await fetch(url, {
         method,
@@ -59,12 +59,11 @@ const AddEmployeeForm = () => {
       const result = await response.json();
       console.log('Employee data saved:', result);
 
-      // After successful submission, navigate to employee list
       navigate('/displayemployees');
     } catch (error) {
       console.error('Error:', error);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 

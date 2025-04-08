@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link } from 'react-router-dom';
+
+// Centralized API configuration
+const BASE_URL = 'https://talentverifybackend.onrender.com'; // or 'http://127.0.0.1:8000' for development
+
+const API = {
+  EMPLOYEES: `${BASE_URL}/employees/`,
+  DELETE_EMPLOYEE: (id) => `${BASE_URL}/employees/${id}/`,
+};
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]); // State to store employees data
@@ -7,10 +15,10 @@ const EmployeeList = () => {
   const [searchTerm, setSearchTerm] = useState(''); // State for the search term
   const [filteredEmployees, setFilteredEmployees] = useState([]); // State for filtered employees
 
-  // Fetch employees from the server
+  // Fetch employees from the server using centralized API URL
   const fetchEmployees = () => {
     setLoading(true); // Set loading to true when the fetch starts
-    fetch('https://talentverifybackend.onrender.com/employees/')
+    fetch(API.EMPLOYEES)
       .then(response => {
         if (!response.ok) {
           throw new Error('Failed to fetch employees');
@@ -41,13 +49,11 @@ const EmployeeList = () => {
     setFilteredEmployees(results);
   }, [employees, searchTerm]);
 
-  // Handle delete action
+  // Handle delete action using centralized API URL
   const handleDelete = (id) => {
     if (!window.confirm('Are you sure you want to delete this employee?')) return;
 
-    fetch(`http://127.0.0.1:8000/employees/${id}/`, {
-      method: 'DELETE',
-    })
+    fetch(API.DELETE_EMPLOYEE(id), { method: 'DELETE' })
       .then(response => {
         if (response.status === 204) {
           setEmployees(prevEmployees => prevEmployees.filter(emp => emp.id !== id));
@@ -64,7 +70,6 @@ const EmployeeList = () => {
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
-
   return (
     <div className="container my-4">
       {/* Search Input Centered */}

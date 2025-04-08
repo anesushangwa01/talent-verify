@@ -1,25 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useParams, useNavigate } from 'react-router-dom'; // Updated to use useNavigate
+import { useParams, useNavigate } from 'react-router-dom';
+
+const BASE_URL = 'https://talentverifybackend.onrender.com'; // 👈 Reusable base URI
+// const BASE_URL = 'http://127.0.0.1:8000'; // 👈 Reusable base URI
+
 
 const AddCompanyForm = () => {
-  const { id } = useParams(); // For edit
+  const { id } = useParams();
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
-  const navigate = useNavigate(); // Initialize useNavigate
-  const [loading, setLoading] = useState(false); // Add loading state
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (id) {
-      setLoading(true); // Start loading when data is being fetched
-      fetch(`https://talentverifybackend.onrender.com/companies/${id}/`)
+      setLoading(true);
+      fetch(`${BASE_URL}/companies/${id}/`)
         .then(res => res.json())
         .then(data => {
-          reset(data); // Populate the form with the fetched data
-          setLoading(false); // Set loading to false when data is fetched
+          reset(data);
+          setLoading(false);
         })
         .catch(err => {
           console.error('Error loading company:', err);
-          setLoading(false); // Set loading to false even if there is an error
+          setLoading(false);
         });
     }
   }, [id, reset]);
@@ -27,8 +31,8 @@ const AddCompanyForm = () => {
   const onSubmit = async (data) => {
     const method = id ? 'PUT' : 'POST';
     const url = id
-      ? `https://talentverifybackend.onrender.com/companies/${id}/update/`
-      : 'https://talentverifybackend.onrender.com/add-company/';
+      ? `${BASE_URL}/companies/${id}/update/`
+      : `${BASE_URL}/add-company/`;
 
     try {
       const response = await fetch(url, {
@@ -45,11 +49,10 @@ const AddCompanyForm = () => {
       console.log(`${id ? 'Updated' : 'Added'} company:`, result);
 
       if (!id) {
-        reset(); // Reset the form if adding a new company
+        reset();
       }
 
-      // After successful form submission, navigate to the company list page
-      navigate('/displaycompany'); 
+      navigate('/displaycompany');
     } catch (error) {
       console.error('Error submitting form:', error);
     }
