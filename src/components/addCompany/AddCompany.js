@@ -27,8 +27,8 @@ const AddCompanyForm = () => {
   const onSubmit = async (data) => {
     const method = id ? 'PUT' : 'POST';
     const url = id
-      ? `http://127.0.0.1:8000/companies/${id}/update/`
-      : 'http://127.0.0.1:8000/add-company/';
+      ? `https://talentverifybackend.onrender.com/companies/${id}/update/`
+      : 'https://talentverifybackend.onrender.com/add-company/';
 
     try {
       const response = await fetch(url, {

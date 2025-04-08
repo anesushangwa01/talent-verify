@@ -19,14 +19,14 @@ const AddEmployeeForm = () => {
   // Fetch companies and employee data if in edit mode
   useEffect(() => {
     // Fetch companies list
-    fetch('http://127.0.0.1:8000/companies/')
+    fetch('https://talentverifybackend.onrender.com/companies/')
       .then((res) => res.json())
       .then((data) => setCompanies(data))
       .catch((err) => console.error('Error fetching companies:', err));
 
     if (id) {
       // Fetch employee data for editing
-      fetch(`http://127.0.0.1:8000/employees/${id}/`)
+      fetch(`https://talentverifybackend.onrender.com/employees/${id}/`)
         .then((res) => res.json())
         .then((data) => {
           setEmployeeData(data);
@@ -43,8 +43,8 @@ const AddEmployeeForm = () => {
     try {
       const method = id ? 'PUT' : 'POST'; // Choose method based on edit or add
       const url = id
-        ? `http://127.0.0.1:8000/employees/${id}/update/`
-        : 'http://127.0.0.1:8000/add-employee/';
+        ? `https://talentverifybackend.onrender.com/employees/${id}/update/`
+        : 'https://talentverifybackend.onrender.com/add-employee/';
 
       const response = await fetch(url, {
         method,
