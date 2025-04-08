@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';  // Import Link from react-router-dom
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]); // State to store employees data
   const [loading, setLoading] = useState(true); // Loading state to track fetching status
+  const [searchTerm, setSearchTerm] = useState(''); // State for the search term
+  const [filteredEmployees, setFilteredEmployees] = useState([]); // State for filtered employees
 
   // Fetch employees from the server
   const fetchEmployees = () => {
     setLoading(true); // Set loading to true when the fetch starts
-    fetch('http://127.0.0.1:8000/employees/')
+    fetch('https://talentverifybackend.onrender.com/employees/')
       .then(response => {
         if (!response.ok) {
           throw new Error('Failed to fetch employees');
@@ -29,6 +31,16 @@ const EmployeeList = () => {
     fetchEmployees(); // Call fetchEmployees when component mounts
   }, []);
 
+  // Update filtered employees when employees data or search term changes
+  useEffect(() => {
+    const results = employees.filter(employee =>
+      Object.values(employee).some(value =>
+        String(value).toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+    setFilteredEmployees(results);
+  }, [employees, searchTerm]);
+
   // Handle delete action
   const handleDelete = (id) => {
     if (!window.confirm('Are you sure you want to delete this employee?')) return;
@@ -48,6 +60,11 @@ const EmployeeList = () => {
       });
   };
 
+  // Handle search input change
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
   return (
     <div className="container my-4">
       {/* Search Input Centered */}
@@ -57,6 +74,8 @@ const EmployeeList = () => {
           placeholder="search employee"
           className="form-control rounded-pill px-3 py-2 bg-light border-0 small"
           style={{ maxWidth: "300px" }}
+          value={searchTerm}
+          onChange={handleSearchChange}
         />
       </div>
 
@@ -89,14 +108,14 @@ const EmployeeList = () => {
               </tr>
             </thead>
             <tbody>
-              {employees.length === 0 ? (
+              {filteredEmployees.length === 0 ? (
                 <tr>
                   <td colSpan="9" className="text-center text-muted">
-                    No employees found.
+                    No employees found matching your search.
                   </td>
                 </tr>
               ) : (
-                employees.map((emp) => (
+                filteredEmployees.map((emp) => (
                   <tr key={emp.id}>
                     <td>{emp.employee_name}</td>
                     <td>{emp.employee_id}</td>

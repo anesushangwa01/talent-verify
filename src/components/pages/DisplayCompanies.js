@@ -3,22 +3,34 @@ import { Link } from 'react-router-dom';
 
 const CompanyList = () => {
   const [companies, setCompanies] = useState([]);
-  const [loading, setLoading] = useState(true); // Loading state to track fetching status
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredCompanies, setFilteredCompanies] = useState([]);
 
   // Fetch companies from the server
   useEffect(() => {
-    setLoading(true); // Set loading to true when fetch starts
-    fetch('http://127.0.0.1:8000/companies/')
+    setLoading(true);
+    fetch('https://talentverifybackend.onrender.com/companies/')
       .then(response => response.json())
       .then(data => {
-        setCompanies(data); // Update companies data once fetched
-        setLoading(false); // Set loading to false once data is fetched
+        setCompanies(data);
+        setLoading(false);
       })
       .catch(error => {
         console.error('Error fetching companies:', error);
-        setLoading(false); // Set loading to false even if there is an error
+        setLoading(false);
       });
   }, []);
+
+  // Update filtered companies when companies data or search term changes
+  useEffect(() => {
+    const results = companies.filter(company =>
+      Object.values(company).some(value =>
+        String(value).toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+    setFilteredCompanies(results);
+  }, [companies, searchTerm]);
 
   // Handle delete action
   const deleteCompany = async (id) => {
@@ -30,12 +42,17 @@ const CompanyList = () => {
       });
       if (res.ok) {
         alert('Company deleted');
-        // Remove the deleted company from the list (optimistic update)
+        // Remove the deleted company from the local state
         setCompanies(companies.filter(company => company.id !== id));
       }
     } catch (err) {
       console.error('Delete failed:', err);
     }
+  };
+
+  // Handle search input change
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
   };
 
   return (
@@ -44,9 +61,11 @@ const CompanyList = () => {
       <div className="d-flex justify-content-center mb-3">
         <input
           type="text"
-          placeholder="search company"
+          placeholder="Search company"
           className="form-control rounded-pill px-3 py-2 bg-light border-0 small"
           style={{ maxWidth: "300px" }}
+          value={searchTerm}
+          onChange={handleSearchChange}
         />
       </div>
 
@@ -79,14 +98,14 @@ const CompanyList = () => {
               </tr>
             </thead>
             <tbody>
-              {companies.length === 0 ? (
+              {filteredCompanies.length === 0 ? (
                 <tr>
                   <td colSpan="9" className="text-center text-muted">
-                    No companies found.
+                    No companies found matching your search.
                   </td>
                 </tr>
               ) : (
-                companies.map((company) => (
+                filteredCompanies.map((company) => (
                   <tr key={company.id}>
                     <td>{company.company_name}</td>
                     <td>{company.register_number}</td>

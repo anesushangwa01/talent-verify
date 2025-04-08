@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 const AddEmployeeForm = () => {
   const { id } = useParams(); // Get the employee ID from the URL
-  const navigate = useNavigate(); // Use useNavigate instead of useHistory
+  const navigate = useNavigate(); // Initialize useNavigate for navigation after form submission
   const {
     register,
     handleSubmit,
@@ -13,7 +13,7 @@ const AddEmployeeForm = () => {
   } = useForm();
 
   const [companies, setCompanies] = useState([]); // State for companies list
-  const [employeeData, setEmployeeData] = useState(null); // State for employee data (for editing)
+  const [ setEmployeeData] = useState(null); // State for employee data (for editing)
   const [loading, setLoading] = useState(false); // State to track loading
 
   // Fetch companies and employee data if in edit mode

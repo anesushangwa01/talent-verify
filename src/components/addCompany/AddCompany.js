@@ -11,7 +11,7 @@ const AddCompanyForm = () => {
   useEffect(() => {
     if (id) {
       setLoading(true); // Start loading when data is being fetched
-      fetch(`http://127.0.0.1:8000/companies/${id}/`)
+      fetch(`https://talentverifybackend.onrender.com/companies/${id}/`)
         .then(res => res.json())
         .then(data => {
           reset(data); // Populate the form with the fetched data

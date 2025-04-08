@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route,Outlet } from "react-router-dom";
 import Header from "./components/header/Header";
 import AddCompany from "./components/addCompany/AddCompany"
 import AddEmployee from "./components/addEmployee/AddEmployee";
