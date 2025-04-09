@@ -55,16 +55,12 @@ const Header = () => {
               <Link className="nav-link text-dark" to="/displayemployees" onClick={closeNavbar}>
                 Display Employees
               </Link>
-
-              <Link to="/login" className="btn btn-success btn-sm px-4 ms-2" onClick={closeNavbar}>
-                Login
-              </Link>
             </div>
           </div>
         </div>
       </nav>
 
-      {/* Main content */}
+ 
       <Outlet />
     </>
   );

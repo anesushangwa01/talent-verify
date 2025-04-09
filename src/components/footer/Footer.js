@@ -1,11 +1,10 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet,  } from "react-router-dom";
 
 const Footer = () => {
   return (
     <>
-      <footer>
-        <p>Copyright &copy; 2025</p>
-        <Link to="/register">Register</Link>
+      <footer class=" text-center text-lg-start mt-5">
+        <p>Copyright &copy; 2025 Talent Verify</p>
       </footer>
     </>
   )

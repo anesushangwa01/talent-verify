@@ -1,0 +1,89 @@
+# Project documentation
+
+#  Talent verify
+
+Talent Verify is an online talent verification service. Employers provide the  information about 
+themselves and their employees
+
+[Software Demo Video](#)
+[Trello to do task](https://trello.com/invite/b/67f61a22462872ada93e613e/ATTIffa3ca05289cf50d6927eb53d0d22dd100F9CB61/my-trello-board)
+[Software wireframe](https://www.figma.com/design/w81IYIgHvsRwh4BBL0JGcQ/Untitled?node-id=0-1&p=f&t=xohVqYDDKs49vBUr-0)
+
+
+## Development Environment
+
+- Visual Studio Code
+- django
+- React 19
+- Git
+- Trell0
+- Neon post
+- Neon PostgreSQL Platform
+
+## Useful Websites
+
+- [Neon and django Blog](https://neon.tech/blog/python-django-and-neons-serverless-post)
+- [w3 schools react getting started](https://www.w3schools.com/REACT/DEFAULT.ASP)
+- [Visual Studio Code](https://github.com/Microsoft/vscode)
+- [Django tutorial by monsh](https://youtu.be/rHux0gMZ3Eg)
+- [Django Doc](https://docs.djangoproject.com/en/3.0/intro/tutorial01/)
+
+## Installation
+
+Follow these steps to set up the project locally:
+
+### Prerequisites
+
+- [Python  3 and above](https://www.python.org/downloads/)
+- [Neon Serverless Postgres](https://neon.tech/) (Create an account sign in with github or your preferred method)
+- [React 19](https://reactnative.dev/docs/environment-setup)
+
+### Setup Steps
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/anesushangwa01/talentverifybackend.git   
+   git clone  https://github.com/anesushangwa01/talent-verify.git
+   ```
+
+2. **Navigate to the project directory:**
+
+   ```bash
+   cd talentverifybackend for django
+   cd talent-verify for  React
+
+   ```
+
+3. **Restore dependencies:**
+
+   ```bash
+   npm install for react
+
+   pip install -r requirements.txt for django
+
+
+   ```
+
+4. **Set up the database (if applicable):**
+
+   - Update ` add .env` with your database connection string (You can get the connection string setting a neon database).
+   - Apply migrations:
+     ```bash
+   python manage.py makemigrations
+   and  python manage.py migrate
+
+     ```
+
+5. **Run the application:**
+
+   ```bash
+   npm start for React 
+   python manage.py runserver django
+   ```
+
+6. **Access the application:**
+   - Open a browser and go to i.e `http://localhost:5000` (or whatever port your app runs on). both on react and django
+
+
+7. [Software Demo Video](#)
